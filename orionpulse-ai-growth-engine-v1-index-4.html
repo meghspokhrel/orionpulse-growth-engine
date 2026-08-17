@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07080c">
+<meta name="description" content="OrionPulse AI Growth Engine">
+<title>OrionPulse — AI Growth Engine v1</title>
+<style>
+:root{--bg:#07080c;--panel:#0e1118;--panel2:#121621;--line:rgba(255,255,255,.09);--text:#f5f7fb;--muted:#8c95a8;--blue:#0047ff;--green:#39d98a;--amber:#ffbd4a}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 75% -10%,rgba(0,71,255,.18),transparent 34%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{display:flex;min-height:100vh}.sidebar{width:260px;position:fixed;inset:0 auto 0 0;background:rgba(7,8,12,.94);backdrop-filter:blur(20px);border-right:1px solid var(--line);padding:22px 16px;z-index:20;overflow:auto}
+.brand{display:flex;align-items:center;gap:12px;padding:4px 8px 24px}.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#0a5cff,#0032b7);font-weight:900}.brand h1{font-size:17px;margin:0}.brand p{font-size:9px;color:var(--muted);letter-spacing:1.6px;margin:4px 0}
+.nav-label{font-size:9px;letter-spacing:1.6px;color:#60697a;text-transform:uppercase;padding:16px 10px 7px}.nav button{width:100%;border:1px solid transparent;background:transparent;color:#9ba3b5;padding:11px 12px;border-radius:12px;text-align:left;margin:2px 0;display:flex;align-items:center;gap:10px}.nav button:hover{background:rgba(255,255,255,.04);color:#fff}.nav button.active{background:rgba(0,71,255,.13);border-color:rgba(0,71,255,.35);color:#fff}.icon{width:20px;text-align:center}.badge{margin-left:auto;border-radius:999px;padding:2px 7px;font-size:10px;background:rgba(0,71,255,.16);color:#6fa0ff}
+.sidebar-footer{margin-top:22px;padding:13px;border:1px solid var(--line);border-radius:14px}.org{font-size:12px;font-weight:700}.org-sub{font-size:10px;color:var(--muted);margin-top:3px}
+.main{margin-left:260px;width:calc(100% - 260px);min-width:0}.topbar{position:sticky;top:0;z-index:15;height:68px;padding:0 28px;border-bottom:1px solid var(--line);background:rgba(7,8,12,.75);backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:space-between}.crumb{font-size:13px;color:var(--muted)}.crumb strong{color:#fff}.top-actions{display:flex;gap:9px}.btn{border:1px solid var(--line);background:rgba(255,255,255,.035);color:#fff;border-radius:11px;padding:10px 14px;font-weight:700;font-size:12px}.btn:hover{background:rgba(255,255,255,.07)}.btn-primary{background:linear-gradient(135deg,#0b5dff,#0040dc);border-color:#1c65ff}.content{padding:30px;max-width:1500px;margin:auto}.view{display:none}.view.active{display:block}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:24px}.eyebrow{font-size:10px;letter-spacing:2px;color:#6191ff;text-transform:uppercase;font-weight:800}h2{font-size:32px;line-height:1.05;margin:7px 0 8px;letter-spacing:-1.5px}.sub{color:var(--muted);font-size:13px;max-width:760px;line-height:1.65}
+.grid{display:grid;gap:15px}.metrics{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.018));border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,.3)}.metric{padding:18px}.metric-label{font-size:11px;color:var(--muted)}.metric-value{font-size:29px;font-weight:850;margin:9px 0 4px}.metric-meta{font-size:10px;color:#6e778b}.up{color:var(--green)}
+.two{grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr);margin-top:15px}.card-head{padding:17px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}.card-title{font-weight:800;font-size:13px}.card-sub{font-size:10px;color:var(--muted);margin-top:3px}.card-body{padding:18px}
+.pipeline{height:240px;display:flex;align-items:flex-end;gap:12px}.bar-wrap{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:7px;text-align:center}.bar{height:var(--h);min-height:8px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#2d76ff,#0047ff)}.bar-label{font-size:9px;color:var(--muted)}.bar-num{font-size:10px;font-weight:800}
+.activity{display:flex;flex-direction:column}.activity-row{display:grid;grid-template-columns:32px 1fr auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)}.agent-dot{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:rgba(0,71,255,.13);color:#6da0ff}.activity-main{font-size:11px;font-weight:700}.activity-time{font-size:9px;color:var(--muted);margin-top:3px}.status{font-size:9px;padding:4px 7px;border-radius:999px;background:rgba(57,217,138,.09);color:var(--green)}
+.workflow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.agent{padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.018)}.agent-top{display:flex;justify-content:space-between}.agent-name{font-size:11px;font-weight:800}.agent-state{font-size:9px;color:var(--green)}.agent-desc{font-size:9px;color:var(--muted);line-height:1.5;margin-top:7px}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:15px}.input,.select{background:#0b0e14;border:1px solid var(--line);color:#fff;border-radius:10px;padding:10px 12px;outline:none;min-width:170px}.input:focus,.select:focus{border-color:rgba(0,71,255,.65)}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:850px}.table th,.table td{padding:13px 12px;border-bottom:1px solid rgba(255,255,255,.055);text-align:left;font-size:11px}.table th{color:#727b8f;font-size:9px;letter-spacing:1px;text-transform:uppercase}.pill{display:inline-flex;padding:4px 7px;border-radius:999px;font-size:9px;border:1px solid var(--line);color:#9ba4b7}.score{font-weight:850;color:#6ea1ff}.empty{padding:35px;text-align:center;color:var(--muted);font-size:12px}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}.modal-backdrop.show{display:flex}.modal{width:min(620px,100%);background:#0e1118;border:1px solid rgba(255,255,255,.1);border-radius:20px;overflow:hidden}.modal-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}.modal-body{padding:20px}.modal-title{font-weight:850}.close{background:transparent;border:0;color:#9aa3b5;font-size:22px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:10px;color:#81899b;text-transform:uppercase;letter-spacing:1px}.field input,.field textarea{width:100%;background:#090c12;border:1px solid var(--line);border-radius:10px;color:#fff;padding:11px;outline:none}.field textarea{min-height:100px}.modal-foot{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}.toast{position:fixed;right:22px;bottom:22px;z-index:80;display:none;max-width:380px;padding:13px 15px;border-radius:13px;background:#111722;border:1px solid rgba(0,71,255,.35);font-size:11px}.toast.show{display:block}.mobile-menu{display:none}
+@media(max-width:1100px){.metrics{grid-template-columns:repeat(2,1fr)}.workflow{grid-template-columns:repeat(3,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:760px){.sidebar{transform:translateX(-100%);transition:.25s}.sidebar.open{transform:translateX(0)}.main{margin-left:0;width:100%}.mobile-menu{display:inline-grid}.content{padding:20px 14px}.topbar{padding:0 14px}.hero{align-items:flex-start;flex-direction:column}.metrics{grid-template-columns:1fr 1fr}.workflow{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.input,.select{width:100%}}
+@media(max-width:480px){.metrics{grid-template-columns:1fr}.workflow{grid-template-columns:1fr}.metric-value{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="logo">OP</div><div><h1>OrionPulse</h1><p>AI GROWTH ENGINE</p></div></div>
+  <nav class="nav">
+    <div class="nav-label">Command Center</div><button class="active" data-view="overview"><span class="icon">⌘</span>Overview</button>
+    <div class="nav-label">Pipeline</div>
+    <button data-view="prospects"><span class="icon">♧</span>Prospects <span class="badge" id="prospectBadge">0</span></button>
+    <button data-view="audits"><span class="icon">◎</span>Website Audits</button>
+    <button data-view="qualification"><span class="icon">✓</span>Lead Qualification</button>
+    <button data-view="scoring"><span class="icon">☆</span>Lead Scoring</button>
+    <button data-view="personalization"><span class="icon">✦</span>Personalization</button>
+    <div class="nav-label">Engagement</div>
+    <button data-view="outreach"><span class="icon">➤</span>Outreach</button>
+    <button data-view="followups"><span class="icon">↻</span>Follow-ups <span class="badge" id="followupBadge">0</span></button>
+    <button data-view="meetings"><span class="icon">◷</span>Meetings</button>
+    <button data-view="proposals"><span class="icon">▤</span>Proposals</button>
+    <div class="nav-label">Operations</div>
+    <button data-view="crm"><span class="icon">▦</span>CRM</button>
+    <button data-view="reports"><span class="icon">▥</span>Reports</button>
+    <button data-view="activity"><span class="icon">◌</span>Agent Activity</button>
+    <button data-view="settings"><span class="icon">⚙</span>Settings</button>
+  </nav>
+  <div class="sidebar-footer"><div class="org">OrionPulse Growth Team</div><div class="org-sub">Organization: org-001</div></div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div style="display:flex;align-items:center;gap:12px"><button class="btn mobile-menu" id="mobileMenu">☰</button><div class="crumb">Growth Engine / <strong id="crumb">Overview</strong></div></div>
+  <div class="top-actions"><button class="btn" id="refreshBtn">↻ Refresh</button><button class="btn btn-primary" id="runEngineBtn">Run Growth Engine</button></div>
+</header>
+
+<div class="content">
+<section class="view active" id="view-overview">
+  <div class="hero"><div><div class="eyebrow">Precision is the new luxury</div><h2>AI Growth Engine</h2><div class="sub">A coordinated operating layer for prospect discovery, intelligence, outreach, meetings, proposals, CRM and growth reporting.</div></div><button class="btn btn-primary" id="discoverHero">+ Find Prospects</button></div>
+  <div class="grid metrics">
+    <div class="card metric"><div class="metric-label">Total Prospects</div><div class="metric-value" id="mProspects">0</div><div class="metric-meta">Database records</div></div>
+    <div class="card metric"><div class="metric-label">Qualified Leads</div><div class="metric-value" id="mQualified">0</div><div class="metric-meta up">AI qualification</div></div>
+    <div class="card metric"><div class="metric-label">High-Score Leads</div><div class="metric-value" id="mHighScore">0</div><div class="metric-meta">Score ≥ 75</div></div>
+    <div class="card metric"><div class="metric-label">Pipeline Value</div><div class="metric-value" id="mValue">₹0</div><div class="metric-meta">Estimated opportunity</div></div>
+  </div>
+  <div class="grid two">
+    <div class="card"><div class="card-head"><div><div class="card-title">Pipeline Activity</div><div class="card-sub">Current prospect distribution</div></div></div><div class="card-body"><div class="pipeline" id="pipelineChart"></div></div></div>
+    <div class="card"><div class="card-head"><div><div class="card-title">Agent Activity</div><div class="card-sub">Latest execution events</div></div></div><div class="card-body"><div class="activity" id="activityPreview"></div></div></div>
+  </div>
+  <div class="card" style="margin-top:15px"><div class="card-head"><div><div class="card-title">12-Agent Growth Team</div><div class="card-sub">Specialized agents connected through the Growth Engine Orchestrator</div></div><span class="pill">ORCHESTRATOR READY</span></div><div class="card-body"><div class="workflow" id="agentGrid"></div></div></div>
+</section>
+
+<section class="view" id="view-prospects">
+  <div class="hero"><div><div class="eyebrow">Prospecting Agent</div><h2>Prospects</h2><div class="sub">Discover and manage prospects. Verification must be enforced by the backend before records are presented as verified.</div></div><button class="btn btn-primary" id="findProspectsBtn">Start AI Prospecting</button></div>
+  <div class="card"><div class="card-body"><div class="toolbar"><input class="input" id="prospectSearch" placeholder="Search company or domain..."><select class="select" id="stageFilter"><option value="">All stages</option><option>Discovered</option><option>Audited</option><option>Qualified</option><option>Personalized</option></select><button class="btn" id="auditPendingBtn">Run Pending Audits</button><button class="btn" id="rescoreBtn">Re-score Pipeline</button></div><div class="table-wrap"><table class="table"><thead><tr><th>Business</th><th>Website</th><th>Industry</th><th>Stage</th><th>Score</th><th>Source</th><th>Verification</th></tr></thead><tbody id="prospectTable"></tbody></table></div></div></div>
+</section>
+
+<section class="view" id="view-audits"><div class="hero"><div><div class="eyebrow">Website Audit Agent</div><h2>Website Audits</h2><div class="sub">Technical, SEO, performance, conversion and local-growth intelligence.</div></div><button class="btn btn-primary" id="runAuditsBtn">Run Pending Audits</button></div><div class="card"><div class="card-body"><div class="table-wrap"><table class="table"><thead><tr><th>Prospect</th><th>Website</th><th>SEO</th><th>Performance</th><th>Conversion</th><th>Overall</th><th>Status</th></tr></thead><tbody id="auditTable"></tbody></table></div></div></div></section>
+
+<section class="view" id="view-qualification"><div class="hero"><div><div class="eyebrow">Lead Qualification Agent</div><h2>Lead Qualification</h2><div class="sub">Evaluate fit, need, buying signals and estimated opportunity.</div></div><button class="btn btn-primary" id="qualifyBtn">Qualify Pipeline</button></div><div class="card"><div class="card-body"><div class="table-wrap"><table class="table"><thead><tr><th>Prospect</th><th>Business Fit</th><th>Need</th><th>Buying Signal</th><th>Priority</th><th>Status</th></tr></thead><tbody id="qualificationTable"></tbody></table></div></div></div></section>
+
+<section class="view" id="view-scoring"><div class="hero"><div><div class="eyebrow">Lead Scoring Agent</div><h2>Lead Scoring</h2><div class="sub">Prioritize prospects using transparent scoring signals.</div></div><button class="btn btn-primary" id="scoreBtn">Re-score Pipeline</button></div><div class="card"><div class="card-body"><div class="table-wrap"><table class="table"><thead><tr><th>Prospect</th><th>Score</th><th>Priority</th><th>Reason</th><th>Next Action</th></tr></thead><tbody id="scoreTable"></tbody></table></div></div></div></section>
+
+<section class="view" id="view-personalization"><div class="hero"><div><div class="eyebrow">Personalization Agent</div><h2>Personalization</h2><div class="sub">Generate business-specific openings, pain points, offers and calls-to-action.</div></div><button class="btn btn-primary" id="personalizeBtn">Generate Personalization</button></div><div class="card"><div class="card-body"><div class="table-wrap"><table class="table"><thead><tr><th>Prospect</th><th>Subject</th><th>Opening</th><th>Offer</th><th>Status</th></tr></thead><tbody id="personalizationTable"></tbody></table></div></div></div></section>
+
+<section class="view" id="view-outreach"><div class="hero"><div><div class="eyebrow">Outreach Agent</div><h2>Outreach</h2><div class="sub">Prepare personalized outreach. Initial release is human-approved before sending.</div></div><button class="btn btn-primary" id="prepareOutreachBtn">Prepare Outreach</button></div><div class="card"><div class="card-body"><div class="table-wrap"><table class="table"><thead><tr><th>Prospect</th><th>Channel</th><th>Subject</th><th>Status</th><th>Created</th></tr></thead><tbody id="outreachTable"></tbody></table></div></div></div></section>
+
+<section class="view" id="view-followups"><div class="hero"><div><div class="eyebrow">Follow-up Agent</div><h2>Follow-ups</h2><div class="sub">Track next actions and generate context-aware follow-up sequences.</div></div><button class="btn btn-primary" id="followupBtn">Create Follow-ups</button></div><div class="card"><div class="card-body"><div class="table-wrap"><table class="table"><thead><tr><th>Prospect</th><th>Step</th><th>Due</th><th>Reason</th><th>Status</th></tr></thead><tbody id="followupTable"></tbody></table></div></div></div></section>
+
+<section class="view" id="view-meetings"><div class="hero"><div><div class="eyebrow">Meeting Agent</div><h2>Meetings</h2><div class="sub">Prepare qualified opportunities for Google Calendar scheduling.</div></div><button class="btn btn-primary" id="meetingBtn">Prepare Meeting</button></div><div class="card"><div class="card-body"><div class="empty">Google Calendar OAuth integration belongs in the secure backend.</div></div></div></section>
+
+<section class="view" id="view-proposals"><div class="hero"><div><div class="eyebrow">Proposal Agent</div><h2>Proposals</h2><div class="sub">Generate proposals from prospect intelligence, audits, scores, services and pricing.</div></div><button class="btn btn-primary" id="proposalBtn">Generate Proposal</button></div><div class="card"><div class="card-body"><div class="table-wrap"><table class="table"><thead><tr><th>Prospect</th><th>Proposal</th><th>Value</th><th>Status</th><th>Storage</th></tr></thead><tbody id="proposalTable"></tbody></table></div></div></div></section>
+
+<section class="view" id="view-crm"><div class="hero"><div><div class="eyebrow">CRM Agent</div><h2>CRM</h2><div class="sub">Track opportunity stage, owner, value, probability and next action.</div></div><button class="btn btn-primary" id="crmBtn">Update CRM</button></div><div class="card"><div class="card-body"><div class="table-wrap"><table class="table"><thead><tr><th>Prospect</th><th>Stage</th><th>Value</th><th>Probability</th><th>Next Action</th></tr></thead><tbody id="crmTable"></tbody></table></div></div></div></section>
+
+<section class="view" id="view-reports"><div class="hero"><div><div class="eyebrow">Reporting Agent</div><h2>Reports</h2><div class="sub">Growth intelligence generated from actual application data.</div></div><button class="btn btn-primary" id="reportBtn">Generate Report</button></div><div class="grid metrics"><div class="card metric"><div class="metric-label">Conversion to Qualified</div><div class="metric-value" id="rQualified">0%</div></div><div class="card metric"><div class="metric-label">High Priority</div><div class="metric-value" id="rHigh">0</div></div><div class="card metric"><div class="metric-label">Pipeline Value</div><div class="metric-value" id="rValue">₹0</div></div><div class="card metric"><div class="metric-label">Agent Runs</div><div class="metric-value" id="rRuns">0</div></div></div></section>
+
+<section class="view" id="view-activity"><div class="hero"><div><div class="eyebrow">Agent Activity</div><h2>Execution Log</h2><div class="sub">Every agent run should be recorded by the backend with status, prospect ID, timestamp and result.</div></div><button class="btn" id="clearActivity">Clear Local Activity</button></div><div class="card"><div class="card-body"><div class="activity" id="activityFull"></div></div></div></section>
+
+<section class="view" id="view-settings"><div class="hero"><div><div class="eyebrow">System Configuration</div><h2>Settings</h2><div class="sub">Frontend API configuration. Secrets must remain server-side.</div></div></div><div class="grid two"><div class="card"><div class="card-head"><div class="card-title">Backend</div></div><div class="card-body"><div class="field"><label>API Base URL</label><input id="apiBase" value="/api"></div><p class="sub" style="margin-top:12px">Expected routes include /api/prospects/discover and /api/growth-engine/run.</p></div></div><div class="card"><div class="card-head"><div class="card-title">Google Workspace</div></div><div class="card-body"><p class="sub">OAuth-ready targets: Gmail, Google Sheets, Google Calendar and Google Drive.</p><button class="btn" id="workspaceBtn">Connection Settings</button></div></div></div></section>
+</div>
+</main>
+</div>
+
+<div class="modal-backdrop" id="prospectModal"><div class="modal"><div class="modal-head"><div><div class="modal-title">AI Prospect Discovery</div><div class="card-sub">Prospecting Agent — backend connected when API is available</div></div><button class="close" id="closeModal">×</button></div><div class="modal-body"><div class="form-grid"><div class="field"><label>Industry</label><input id="industryInput" value="Restaurant"></div><div class="field"><label>Location</label><input id="locationInput" value="Imphal"></div><div class="field"><label>Number of prospects</label><input id="limitInput" type="number" min="1" max="50" value="5"></div><div class="field"><label>Minimum score</label><input id="minScoreInput" type="number" min="0" max="100" value="0"></div><div class="field full"><label>Verification rule</label><textarea readonly>Gemini may analyze and enrich verified records, but must not invent businesses, domains, revenue, phone numbers, emails or other factual claims. The backend must store source URL, discovery timestamp and verification status.</textarea></div></div><div class="modal-foot"><button class="btn" id="cancelModal">Cancel</button><button class="btn btn-primary" id="submitProspecting">Start Prospecting</button></div></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+"use strict";
+
+/*
+ORIONPULSE FRONTEND CONTRACT
+Expected backend endpoints:
+POST /api/prospects/discover
+POST /api/audits/run
+POST /api/leads/qualify
+POST /api/leads/rescore
+POST /api/personalization/generate
+POST /api/outreach/prepare
+POST /api/followups/create
+POST /api/meetings/create
+POST /api/proposals/generate
+POST /api/crm/update
+POST /api/growth-engine/run
+GET  /api/reports/growth
+GET  /api/agents/activity
+
+Never put Gemini or Google credentials in this file.
+*/
+const state={
+  prospects:JSON.parse(localStorage.getItem("op_prospects")||"[]"),
+  activities:JSON.parse(localStorage.getItem("op_activity")||"[]"),
+  apiBase:localStorage.getItem("op_api_base")||"/api"
+};
+const agents=[
+["Marketing Agent","Content and campaign intelligence"],
+["Prospecting Agent","Real business discovery"],
+["Website Audit Agent","SEO, technical and conversion audit"],
+["Lead Qualification Agent","Fit, need and buying signals"],
+["Lead Scoring Agent","Priority and next action"],
+["Personalization Agent","Business-specific messaging"],
+["Outreach Agent","Human-approved outreach preparation"],
+["Follow-up Agent","Context-aware follow-up"],
+["Meeting Agent","Calendar-ready scheduling"],
+["Proposal Agent","Proposal generation"],
+["CRM Agent","Opportunity management"],
+["Reporting Agent","Growth intelligence"]
+];
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const money=n=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:0}).format(Number(n||0));
+function save(){localStorage.setItem("op_prospects",JSON.stringify(state.prospects));localStorage.setItem("op_activity",JSON.stringify(state.activities));localStorage.setItem("op_api_base",state.apiBase)}
+function toast(msg,error=false){const e=$("#toast");e.textContent=msg;e.style.borderColor=error?"rgba(255,93,115,.45)":"rgba(0,71,255,.35)";e.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>e.classList.remove("show"),3600)}
+function activity(agent,action,status="Completed",prospectId="—"){state.activities.unshift({agent,action,status,prospectId,timestamp:new Date().toISOString()});state.activities=state.activities.slice(0,100);save();renderActivity()}
+async function api(path,opt={}){state.apiBase=$("#apiBase")?.value?.trim()||state.apiBase||"/api";save();const r=await fetch(state.apiBase.replace(/\/$/,"")+path,{...opt,headers:{"Content-Type":"application/json",...(opt.headers||{})}});const t=await r.text();let d={};try{d=t?JSON.parse(t):{}}catch{d={raw:t}}if(!r.ok)throw new Error(d?.error||`Request failed (${r.status})`);return d}
+function showView(name){$$(".view").forEach(v=>v.classList.remove("active"));$("#view-"+name)?.classList.add("active");$$(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===name));$("#crumb").textContent=name.charAt(0).toUpperCase()+name.slice(1);$("#sidebar").classList.remove("open");scrollTo({top:0,behavior:"smooth"})}
+function renderAgents(){$("#agentGrid").innerHTML=agents.map(([n,d])=>`<div class="agent"><div class="agent-top"><div class="agent-name">${esc(n)}</div><div class="agent-state">READY</div></div><div class="agent-desc">${esc(d)}</div></div>`).join("")}
+function renderMetrics(){const total=state.prospects.length,q=state.prospects.filter(p=>["Qualified","Personalized","Outreach"].includes(p.stage)).length,h=state.prospects.filter(p=>Number(p.score||0)>=75).length,v=state.prospects.reduce((a,p)=>a+Number(p.value||0),0);$("#mProspects").textContent=total;$("#mQualified").textContent=q;$("#mHighScore").textContent=h;$("#mValue").textContent=money(v);$("#prospectBadge").textContent=total;$("#followupBadge").textContent=state.prospects.filter(p=>p.followup).length;$("#rQualified").textContent=total?Math.round(q/total*100)+"%":"0%";$("#rHigh").textContent=h;$("#rValue").textContent=money(v);$("#rRuns").textContent=state.activities.length}
+function renderPipeline(){const stages=["Discovered","Audited","Qualified","Personalized"],c=stages.map(s=>state.prospects.filter(p=>p.stage===s).length),m=Math.max(1,...c);$("#pipelineChart").innerHTML=stages.map((s,i)=>`<div class="bar-wrap"><div class="bar-num">${c[i]}</div><div class="bar" style="--h:${Math.max(12,c[i]/m*175)}px"></div><div class="bar-label">${s}</div></div>`).join("")}
+function renderProspects(){
+const q=($("#prospectSearch")?.value||"").toLowerCase(),stage=$("#stageFilter")?.value||"",rows=state.prospects.filter(p=>(!q||`${p.name} ${p.domain}`.toLowerCase().includes(q))&&(!stage||p.stage===stage));
+$("#prospectTable").innerHTML=rows.length?rows.map(p=>`<tr><td><strong>${esc(p.name)}</strong></td><td>${esc(p.domain||"—")}</td><td>${esc(p.industry||"—")}</td><td><span class="pill">${esc(p.stage||"Discovered")}</span></td><td class="score">${Number(p.score||0)}</td><td>${esc(p.source||"—")}</td><td><span class="pill">${p.verified?"Verified":"Unverified"}</span></td></tr>`).join(""):`<tr><td colspan="7"><div class="empty">No prospect records yet. Start AI Prospecting.</div></td></tr>`;
+$("#auditTable").innerHTML=state.prospects.length?state.prospects.map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.domain||"—")}</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="pill">${esc(p.auditStatus||"Pending")}</span></td></tr>`).join(""):`<tr><td colspan="7"><div class="empty">No audits available.</div></td></tr>`;
+$("#qualificationTable").innerHTML=state.prospects.length?state.prospects.map(p=>`<tr><td>${esc(p.name)}</td><td>—</td><td>—</td><td>—</td><td><span class="pill">${p.score>=75?"High":"Review"}</span></td><td><span class="pill">${esc(p.qualification||"Pending")}</span></td></tr>`).join(""):`<tr><td colspan="6"><div class="empty">No qualification records.</div></td></tr>`;
+$("#scoreTable").innerHTML=state.prospects.length?state.prospects.map(p=>`<tr><td>${esc(p.name)}</td><td class="score">${Number(p.score||0)}</td><td><span class="pill">${p.score>=75?"High":p.score>=50?"Medium":"Low"}</span></td><td>${esc(p.reason||"Awaiting backend scoring")}</td><td>${esc(p.nextAction||"Website Audit")}</td></tr>`).join(""):`<tr><td colspan="5"><div class="empty">No scores available.</div></td></tr>`;
+$("#personalizationTable").innerHTML=state.prospects.length?state.prospects.map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.subject||"Awaiting generation")}</td><td>${esc(p.opening||"—")}</td><td>${esc(p.offer||"—")}</td><td><span class="pill">${p.personalized?"Ready":"Pending"}</span></td></tr>`).join(""):`<tr><td colspan="5"><div class="empty">No personalization records.</div></td></tr>`;
+$("#outreachTable").innerHTML=state.prospects.filter(p=>p.outreach).map(p=>`<tr><td>${esc(p.name)}</td><td>Gmail</td><td>${esc(p.subject||"—")}</td><td><span class="pill">Draft</span></td><td>${esc((p.createdAt||"").slice(0,10)||"—")}</td></tr>`).join("")||`<tr><td colspan="5"><div class="empty">No outreach drafts.</div></td></tr>`;
+$("#followupTable").innerHTML=state.prospects.filter(p=>p.followup).map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.followupStep||"1")}</td><td>${esc(p.followupDue||"—")}</td><td>${esc(p.followupReason||"No response")}</td><td><span class="pill">Pending</span></td></tr>`).join("")||`<tr><td colspan="5"><div class="empty">No follow-ups pending.</div></td></tr>`;
+$("#proposalTable").innerHTML=state.prospects.filter(p=>p.proposal).map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.proposal||"Growth proposal")}</td><td>${money(p.value)}</td><td><span class="pill">Generated</span></td><td>Google Drive ready</td></tr>`).join("")||`<tr><td colspan="5"><div class="empty">No proposals generated.</div></td></tr>`;
+$("#crmTable").innerHTML=state.prospects.length?state.prospects.map(p=>`<tr><td>${esc(p.name)}</td><td><span class="pill">${esc(p.stage||"Discovered")}</span></td><td>${money(p.value)}</td><td>${Number(p.probability||0)}%</td><td>${esc(p.nextAction||"Website Audit")}</td></tr>`).join(""):`<tr><td colspan="5"><div class="empty">No CRM opportunities.</div></td></tr>`;
+}
+function renderActivity(){const rows=state.activities.slice(0,8);$("#activityPreview").innerHTML=rows.length?rows.map(a=>`<div class="activity-row"><div class="agent-dot">✦</div><div><div class="activity-main">${esc(a.agent)}</div><div class="activity-time">${esc(a.action)} · ${new Date(a.timestamp).toLocaleString()}</div></div><span class="status">${esc(a.status)}</span></div>`).join(""):`<div class="empty">No agent activity recorded.</div>`;$("#activityFull").innerHTML=state.activities.length?state.activities.map(a=>`<div class="activity-row"><div class="agent-dot">✦</div><div><div class="activity-main">${esc(a.agent)} — ${esc(a.action)}</div><div class="activity-time">Prospect: ${esc(a.prospectId)} · ${new Date(a.timestamp).toLocaleString()}</div></div><span class="status">${esc(a.status)}</span></div>`).join(""):`<div class="empty">No agent activity recorded.</div>`}
+function renderAll(){renderMetrics();renderPipeline();renderProspects();renderActivity()}
+function openModal(){$("#prospectModal").classList.add("show")}function closeModal(){$("#prospectModal").classList.remove("show")}
+
+async function discover(){
+const industry=$("#industryInput").value.trim(),location=$("#locationInput").value.trim(),limit=Number($("#limitInput").value||5),minScore=Number($("#minScoreInput").value||0);
+if(!industry||!location)return toast("Industry and location are required.",true);
+const b=$("#submitProspecting");b.disabled=true;b.textContent="Running…";activity("Prospecting Agent",`Discover ${limit} prospects in ${location}`,"Running");
+try{
+const d=await api("/prospects/discover",{method:"POST",body:JSON.stringify({industry,location,limit,minScore})});
+const incoming=Array.isArray(d?.prospects)?d.prospects:(Array.isArray(d?.results)?d.results:[]);
+if(!incoming.length)throw new Error("Backend returned no prospect records.");
+incoming.forEach(raw=>{const p=raw.prospect||raw,n={id:p.id||String(Date.now()+Math.random()),name:p.name||p.businessName||"Unnamed business",domain:p.domain||p.website||"",industry:p.industry||industry,location:p.location||location,stage:p.stage||"Discovered",score:Number(p.score||0),value:Number(p.value||p.estimatedValue||0),source:p.source||p.sourceUrl||"",sourceUrl:p.sourceUrl||"",verified:Boolean(p.verified),createdAt:p.createdAt||new Date().toISOString(),auditStatus:p.auditStatus||"Pending",qualification:p.qualification||"Pending",reason:p.reason||"",nextAction:p.nextAction||"Website Audit"};const i=state.prospects.findIndex(x=>x.id===n.id);if(i>=0)state.prospects[i]={...state.prospects[i],...n};else state.prospects.unshift(n)});
+save();activity("Prospecting Agent",`${incoming.length} prospects discovered`,"Completed");closeModal();renderAll();showView("prospects");toast(`${incoming.length} prospect records received from backend.`);
+}catch(e){activity("Prospecting Agent","Prospecting request failed","Failed");toast(`Prospecting failed: ${e.message}.`,true)}
+finally{b.disabled=false;b.textContent="Start Prospecting"}
+}
+async function runAgent(endpoint,agent,action,id){
+const b=id?$(id):null;if(b){b.disabled=true;b.dataset.original=b.textContent;b.textContent="Running…"}activity(agent,action,"Running");
+try{const d=await api(endpoint,{method:"POST",body:JSON.stringify({prospects:state.prospects.map(p=>p.id)})});const incoming=Array.isArray(d?.prospects)?d.prospects:[];incoming.forEach(p=>{const i=state.prospects.findIndex(x=>x.id===p.id);if(i>=0)state.prospects[i]={...state.prospects[i],...p}});save();activity(agent,action,"Completed");renderAll();toast(d?.message||`${agent} completed.`)}catch(e){activity(agent,action,"Failed");toast(`${agent} failed: ${e.message}`,true)}finally{if(b){b.disabled=false;b.textContent=b.dataset.original}}
+}
+async function runEngine(){
+const b=$("#runEngineBtn");b.disabled=true;b.textContent="Running…";activity("Growth Engine Orchestrator","Run core intelligence workflow","Running");
+try{const d=await api("/growth-engine/run",{method:"POST",body:JSON.stringify({prospectIds:state.prospects.map(p=>p.id)})});(Array.isArray(d?.prospects)?d.prospects:[]).forEach(p=>{const i=state.prospects.findIndex(x=>x.id===p.id);if(i>=0)state.prospects[i]={...state.prospects[i],...p}});save();activity("Growth Engine Orchestrator","Core workflow completed","Completed");renderAll();toast(d?.message||"Growth Engine completed.")}catch(e){activity("Growth Engine Orchestrator","Workflow failed","Failed");toast(`Growth Engine failed: ${e.message}`,true)}finally{b.disabled=false;b.textContent="Run Growth Engine"}
+}
+
+$$(".nav button").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
+$("#mobileMenu").addEventListener("click",()=>$("#sidebar").classList.toggle("open"));
+$("#discoverHero").addEventListener("click",openModal);$("#findProspectsBtn").addEventListener("click",openModal);$("#closeModal").addEventListener("click",closeModal);$("#cancelModal").addEventListener("click",closeModal);$("#submitProspecting").addEventListener("click",discover);
+$("#auditPendingBtn").addEventListener("click",()=>runAgent("/audits/run","Website Audit Agent","Run pending website audits","#auditPendingBtn"));
+$("#runAuditsBtn").addEventListener("click",()=>runAgent("/audits/run","Website Audit Agent","Run pending website audits","#runAuditsBtn"));
+$("#rescoreBtn").addEventListener("click",()=>runAgent("/leads/rescore","Lead Scoring Agent","Re-score pipeline","#rescoreBtn"));
+$("#scoreBtn").addEventListener("click",()=>runAgent("/leads/rescore","Lead Scoring Agent","Re-score pipeline","#scoreBtn"));
+$("#qualifyBtn").addEventListener("click",()=>runAgent("/leads/qualify","Lead Qualification Agent","Qualify pipeline","#qualifyBtn"));
+$("#personalizeBtn").addEventListener("click",()=>runAgent("/personalization/generate","Personalization Agent","Generate personalized pitches","#personalizeBtn"));
+$("#prepareOutreachBtn").addEventListener("click",()=>runAgent("/outreach/prepare","Outreach Agent","Prepare human-approved outreach drafts","#prepareOutreachBtn"));
+$("#followupBtn").addEventListener("click",()=>runAgent("/followups/create","Follow-up Agent","Create follow-up sequences","#followupBtn"));
+$("#meetingBtn").addEventListener("click",()=>runAgent("/meetings/create","Meeting Agent","Prepare meeting scheduling","#meetingBtn"));
+$("#proposalBtn").addEventListener("click",()=>runAgent("/proposals/generate","Proposal Agent","Generate proposals","#proposalBtn"));
+$("#crmBtn").addEventListener("click",()=>runAgent("/crm/update","CRM Agent","Update CRM opportunities","#crmBtn"));
+$("#reportBtn").addEventListener("click",async()=>{try{const d=await api("/reports/growth");$("#rQualified").textContent=(d?.qualifiedRate??0)+"%";$("#rHigh").textContent=d?.highScore??0;$("#rValue").textContent=money(d?.pipelineValue);$("#rRuns").textContent=d?.agentRuns??state.activities.length;toast("Growth report refreshed.")}catch(e){toast(`Reporting failed: ${e.message}`,true)}});
+$("#runEngineBtn").addEventListener("click",runEngine);
+$("#refreshBtn").addEventListener("click",async()=>{try{const d=await api("/agents/activity");if(Array.isArray(d?.activities)){state.activities=d.activities;save();renderActivity()}toast("Activity refreshed.")}catch{renderAll();toast("Local state refreshed; backend activity endpoint unavailable.")}});
+$("#prospectSearch").addEventListener("input",renderProspects);$("#stageFilter").addEventListener("change",renderProspects);
+$("#clearActivity").addEventListener("click",()=>{state.activities=[];save();renderActivity();renderMetrics();toast("Local activity cleared.")});
+$("#apiBase").addEventListener("change",e=>{state.apiBase=e.target.value.trim()||"/api";save();toast("API base saved.")});
+$("#workspaceBtn").addEventListener("click",()=>toast("Google Workspace OAuth belongs in the secure backend."));
+$("#apiBase").value=state.apiBase;renderAgents();renderAll();
+})();
+</script>
+</body>
+</html>
